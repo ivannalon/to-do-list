@@ -39,7 +39,7 @@
   border-top: solid 1px var(--gray-400);
 }
 
-.taskOff div {
+.clipBoard {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,14 +48,14 @@
   color: var(--gray-400);
 }
 
-.taskOff strong {
+.taskOffStrong {
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--gray-400);
 }
 
-.taskOff span {
+.taskOffSpan {
   display: flex;
   align-items: center;
   justify-content: center;
