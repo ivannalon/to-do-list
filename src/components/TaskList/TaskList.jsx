@@ -4,23 +4,40 @@ import { Task } from "../Task/Task"
 import styles from "./styles.module.css"
 
 export function TaskList() {
-  const [tasks, setTaks] = useState([
-    1,
-    2
-  ])
+  const [tasks, setTaks] = useState([])
+
+  const [newTaskText, setNewTaskText] = useState("")
 
   function handleCreateNewComment(){
     event?.preventDefault()
 
-    
+    setTaks([...tasks, newTaskText])
+    setNewTaskText("")
+  }
+
+  function handleNewTaskTextChange() {
+    setNewTaskText(event.target.value)
+  }
+
+  function deleteTask(taskToDelete) {
+    const listTaskToDelete = tasks.filter(task => {
+      return task != taskToDelete
+    })
+
+    setTaks(listTaskToDelete)
   }
 
   return (
     <>
       <div className={styles.newTask}>
         <form onSubmit={handleCreateNewComment}>
-          <textarea placeholder="Adicione uma nova tarefa"></textarea>
-          <button className={styles.buttonSubmit} type="submit">
+          <textarea 
+            onChange={handleNewTaskTextChange} 
+            name="task" 
+            placeholder="Adicione uma nova tarefa"
+            value={newTaskText}
+          ></textarea>
+          <button disabled={newTaskText.length === 0} className={styles.buttonSubmit} type="submit">
           <div><span>Criar</span>  <PlusCircle size={16}/></div>
           </button>
         </form>
@@ -41,7 +58,7 @@ export function TaskList() {
 
         <section className={styles.taskOff}>
           {tasks.map(task => {
-            return <Task/>
+            return <Task content={task} onDeleteTask={deleteTask}/>
           })}
 
           <div className={styles.clipBoard}><ClipboardText size={56}/></div>

@@ -99,6 +99,15 @@
   transition: 0.2s;
 }
 
+.buttonSubmit:disabled{
+  filter: brightness(0.5);
+  cursor: not-allowed;
+}
+
+.buttonSubmit:disabled:hover{
+  background: var(--blue-700);
+}
+
 .buttonSubmit div {
   display: flex;
   align-items: center;
