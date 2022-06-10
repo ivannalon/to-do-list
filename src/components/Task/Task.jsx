@@ -6,11 +6,15 @@ export function Task ({content, onDeleteTask}) {
     onDeleteTask(content)
   }
 
+  function handleChecked(){
+    console.log(handleChecked)
+  }
+
   return (
     <ul>
       <li className={styles.taskList}>
         <label>
-          <input type="checkbox"></input>
+          <input type="checkbox" onChangeCapture={handleChecked} ></input>
           <span></span>
         </label>
         <span>{content}</span>

@@ -4,14 +4,16 @@ import { Task } from "../Task/Task"
 import styles from "./styles.module.css"
 
 export function TaskList() {
-  const [tasks, setTaks] = useState([])
+  const [tasks, setTasks] = useState([])
 
   const [newTaskText, setNewTaskText] = useState("")
+
+  const tasksNum = tasks.length
 
   function handleCreateNewComment(){
     event?.preventDefault()
 
-    setTaks([...tasks, newTaskText])
+    setTasks([...tasks, newTaskText])
     setNewTaskText("")
   }
 
@@ -24,7 +26,7 @@ export function TaskList() {
       return task != taskToDelete
     })
 
-    setTaks(listTaskToDelete)
+    setTasks(listTaskToDelete)
   }
 
   return (
@@ -47,7 +49,7 @@ export function TaskList() {
         <div className={styles.info}>
           <div className={styles.tasks}>
             <span className={styles.tasksCreatedText}>Tarefas Criadas</span>
-            <span className={styles.counter}>0</span>
+            <span className={styles.counter}>{tasksNum}</span>
           </div>
 
           <div className={styles.tasks}>
@@ -60,13 +62,16 @@ export function TaskList() {
           {tasks.map(task => {
             return <Task content={task} onDeleteTask={deleteTask}/>
           })}
-
-          <div className={styles.clipBoard}><ClipboardText size={56}/></div>
-          <strong className={styles.taskOffStrong}>Você ainda não tem tarefas cadastradas</strong>
-          <span className={styles.taskOffSpan}>Crie tarefas e organize seus itens a fazer</span>
+ 
+          {tasksNum === 0 &&          
+            <>
+              <div className={styles.clipBoard}><ClipboardText size={56}/></div>
+              <strong className={styles.taskOffStrong}>Você ainda não tem tarefas cadastradas</strong>
+              <span className={styles.taskOffSpan}>Crie tarefas e organize seus itens a fazer</span>
+            </>
+          } 
         </section>
       </div>
     </>
-
   )
 }
