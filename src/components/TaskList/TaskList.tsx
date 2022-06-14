@@ -1,30 +1,44 @@
-import { ClipboardText, PlusCircle } from "phosphor-react"
+import { ClipboardText, PlusCircle, Trash } from "phosphor-react"
 import { useState } from "react"
-import { Task } from "../Task/Task"
+import { uid } from "uid"
 import styles from "./styles.module.css"
 
-export function TaskList() {
-  const [tasks, setTasks] = useState([])
+interface Task {
+  id: string;
+  title: string;
+  isComplete: boolean;
+}
 
+export function TaskList() {
+  const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskText, setNewTaskText] = useState("")
 
   const tasksNum = tasks.length
 
-  function handleCreateNewComment(){
+  function handleCreateNewTask(){
     event?.preventDefault()
 
-    setTasks([...tasks, newTaskText])
+    const Task= {
+      id: uid(),
+      title: newTaskText,
+      isComplete: false
+    }
+    
+    setTasks(prevState => [...prevState, Task])
     setNewTaskText("")
   }
 
-  function handleNewTaskTextChange() {
-    setNewTaskText(event.target.value)
+  function handleToggleTaskCompletion(id: string) {
+    const newTasks = tasks.map(task => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete
+    } : task)
+
+    setTasks(newTasks)
   }
 
-  function deleteTask(taskToDelete) {
-    const listTaskToDelete = tasks.filter(task => {
-      return task != taskToDelete
-    })
+  function handleDeleteTask(id: string) {
+    const listTaskToDelete = tasks.filter(task => task.id != id)
 
     setTasks(listTaskToDelete)
   }
@@ -32,9 +46,9 @@ export function TaskList() {
   return (
     <>
       <div className={styles.newTask}>
-        <form onSubmit={handleCreateNewComment}>
+        <form onSubmit={handleCreateNewTask}>
           <textarea 
-            onChange={handleNewTaskTextChange} 
+            onChange={(e) => setNewTaskText(e.target.value)}
             name="task" 
             placeholder="Adicione uma nova tarefa"
             value={newTaskText}
@@ -59,9 +73,25 @@ export function TaskList() {
         </div>
 
         <section className={styles.taskOff}>
-          {tasks.map(task => {
-            return <Task content={task} onDeleteTask={deleteTask}/>
-          })}
+          {tasks.map(task => (
+              <li key={task.id} className={styles.taskList}>
+                <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
+                  <label>
+                    <input 
+                      type="checkbox"
+                      readOnly
+                      checked={task.isComplete}
+                      onClick={() => handleToggleTaskCompletion(task.id)}
+                    />
+                    <span></span>
+                  </label>
+                </div>
+                <span>{task.title}</span>
+
+                <button onClick={() => handleDeleteTask(task.id)} data-testid="remove-task-button" className={styles.buttonDelete}><Trash size={24}/></button>
+              </li>
+            )
+          )}
  
           {tasksNum === 0 &&          
             <>
