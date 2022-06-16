@@ -1,5 +1,5 @@
 import { ClipboardText, PlusCircle, Trash } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { uid } from "uid"
 import styles from "./styles.module.css"
 
@@ -11,15 +11,8 @@ interface Task {
 
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [counterChecked, setcounterChecked] = useState(0)
   const [newTaskText, setNewTaskText] = useState("")
-
-  useEffect(() => {
-    let counterChecked = 0
-    tasks.map(task => {
-      task.isComplete === true ? counterChecked += 1 : 0
-      return counterChecked
-    })
-  }, [tasks]);
 
   const tasksNum = tasks.length
 
@@ -37,10 +30,13 @@ export function TaskList() {
   }
 
   function handleToggleTaskCompletion(id: string) {
-    const newTasks = tasks.map(task => task.id === id ? {
-      ...task,
-      isComplete: !task.isComplete
-    } : task)
+    const newTasks = tasks.map((task) => {
+      if(task.id === id){
+        task.isComplete = !task.isComplete
+        task.isComplete == true ? setcounterChecked(counterChecked + 1) : setcounterChecked(counterChecked - 1) 
+      }
+      return task
+    });
 
     setTasks(newTasks)
   }
@@ -76,7 +72,7 @@ export function TaskList() {
 
           <div className={styles.tasks}>
             <span className={styles.tasksFinishedText}>Tarefas Concluídas</span>
-            <span className={styles.counter}>0</span>
+            <span className={styles.counter}>{counterChecked}</span>
           </div>
         </div>
 
