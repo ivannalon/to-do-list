@@ -80,14 +80,15 @@ export function TaskList() {
           {tasks.map(task => (
               <li key={task.id} className={styles.taskList}>
                 <div className={task.isComplete ? styles.completed : ''} data-testid="task" >
-                  <label>
+                  <label className={styles.checkContainer}>
                     <input 
+                      className={styles.checkInput}
                       type="checkbox"
                       readOnly
                       checked={task.isComplete}
                       onClick={() => handleToggleTaskCompletion(task.id)}
                     />
-                    <span></span>
+                    <span className={styles.checkmark}></span>
                   </label>
                 </div>
                 <span className={styles.taskText}>{task.title}</span>

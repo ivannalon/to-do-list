@@ -151,3 +151,71 @@
 .buttonDelete:hover{
   color: var(--red-500);
 }
+
+.checkContainer {
+  display: flex;
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+/* Esconder o checkbox padrão */
+.checkContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Criar o checkbox customizado */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.2rem;
+  width: 1.2rem;
+  background-color: var(--gray-500);
+  border: solid 2px var(--blue-300);
+  border-radius: 100px;
+}
+
+/* Adicionar uma cor de fundo cinza ao passar o mouse */
+.checkContainer:hover input ~ .checkmark {
+  border: solid 2px var(--blue-700);
+  background-color: rgba(30, 111, 159, 0.2);
+}
+
+/* Quando o checkbox é clicado, adicionar um fundo rosa */
+.checkContainer input:checked ~ .checkmark {
+  background-color: var(--purple-700);
+  border: solid 2px var(--purple-700);
+}
+
+.checkContainer input:checked ~ .checkmark:hover {
+  background-color: var(--purple-300);
+  border: solid 2px var(--purple-700);
+}
+
+/* Criar o ícone de check, escondido quando não estiver selecionado */
+.checkContainer .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 3px;
+  width: 3px;
+  height: 6px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Exibir o ícone quando selecionado */
+.checkContainer input:checked ~ .checkmark:after {
+  display: block;
+}
