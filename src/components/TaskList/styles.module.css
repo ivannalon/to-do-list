@@ -134,6 +134,11 @@
   margin-bottom: 0.75rem;
 }
 
+.completed + .taskText {
+  text-decoration:line-through;
+  opacity: 0.6;
+}
+
 .buttonDelete{
   margin-left: auto;
   cursor: pointer;

@@ -83,7 +83,7 @@ export function TaskList() {
         <section className={styles.taskOff}>
           {tasks.map(task => (
               <li key={task.id} className={styles.taskList}>
-                <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
+                <div className={task.isComplete ? styles.completed : ''} data-testid="task" >
                   <label>
                     <input 
                       type="checkbox"
@@ -94,7 +94,7 @@ export function TaskList() {
                     <span></span>
                   </label>
                 </div>
-                <span>{task.title}</span>
+                <span className={styles.taskText}>{task.title}</span>
 
                 <button onClick={() => handleDeleteTask(task.id)} data-testid="remove-task-button" className={styles.buttonDelete}><Trash size={24}/></button>
               </li>
