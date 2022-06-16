@@ -1,5 +1,5 @@
 import { ClipboardText, PlusCircle, Trash } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { uid } from "uid"
 import styles from "./styles.module.css"
 
@@ -12,6 +12,14 @@ interface Task {
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskText, setNewTaskText] = useState("")
+
+  useEffect(() => {
+    let counterChecked = 0
+    tasks.map(task => {
+      task.isComplete === true ? counterChecked += 1 : 0
+      return counterChecked
+    })
+  }, [tasks]);
 
   const tasksNum = tasks.length
 
