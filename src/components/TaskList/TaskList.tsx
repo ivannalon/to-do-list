@@ -11,10 +11,11 @@ interface Task {
 
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([])
-  const [counterChecked, setcounterChecked] = useState(0)
   const [newTaskText, setNewTaskText] = useState("")
 
   const tasksNum = tasks.length
+  const checkedNum = tasks.reduce((acc, {isComplete}) => isComplete ? acc + 1 : acc,0)
+  const checkedTasks = tasksNum === 0 ? 0 : `${checkedNum} de ${tasksNum}`
 
   function handleCreateNewTask(){
     event?.preventDefault()
@@ -33,7 +34,6 @@ export function TaskList() {
     const newTasks = tasks.map((task) => {
       if(task.id === id){
         task.isComplete = !task.isComplete
-        task.isComplete == true ? setcounterChecked(counterChecked + 1) : setcounterChecked(counterChecked - 1) 
       }
       return task
     });
@@ -72,7 +72,7 @@ export function TaskList() {
 
           <div className={styles.tasks}>
             <span className={styles.tasksFinishedText}>Tarefas Concluídas</span>
-            <span className={styles.counter}>{counterChecked}</span>
+            <span className={styles.counter}>{checkedTasks}</span>
           </div>
         </div>
 
